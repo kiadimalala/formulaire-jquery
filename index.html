@@ -1,0 +1,246 @@
+<html lang="en">
+
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <meta http-equiv="X-UA-Compatible" content="ie=edge" />
+  <title>Document</title>
+  <link href="https://unpkg.com/tailwindcss@^1.0/dist/tailwind.min.css" rel="stylesheet" />
+</head>
+
+<body>
+  <div class="main h-screen flex flex-col p-48 bg-gray-700">
+    <div class="shadow bg-gray-200 w-20 flex justify-center absolute z-10 rounded-sm">
+      <h1 class="text-gray-800">Inscription</h1>
+    </div>
+
+    <div class=" bg-gray-300 w-full h-full -mx-4 my-4 p-5 pt-6 rounded flex flex-wrap justify-center items-center">
+      <div class=" w-full h-20 pb-2">
+        <h1 class="text-center text-2xl text-blue-500">
+          Formulaire de connexion
+        </h1>
+      </div>
+
+      <div class="w-1/3 flex flex-col px-2 h-20">
+        <h1>Prenom</h1>
+        <input id="prenom" class="border" type="text" required />
+        <p class="err_prenom text-red-500">Valeur incorrecte</p>
+      </div>
+      <div class="w-1/3 flex flex-col h-20 px-2">
+        <h1>Nom de famille</h1>
+        <input id="nom" class="border" type="text" required />
+        <p class="err_nom text-red-500">Valeur incorrect</p>
+      </div>
+      <div class="w-1/3 flex flex-col h-20 px-2">
+        <h1>Adresse Mail</h1>
+        <input id="email" class="border" type="email" required />
+        <p class="err_email text-red-500">Valeur incorrecte</p>
+      </div>
+      <div class="w-1/3 flex flex-col h-20 px-2">
+        <h1>Ville</h1>
+        <input id="ville" class="border" type="text" required />
+        <p class="err_ville text-red-500">Valeur incorrecte</p>
+      </div>
+      <div class="w-1/3 flex flex-col h-20 px-2">
+        <h1>Pays</h1>
+        <input id="pays" class="border" type="text" required />
+        <p class="err_pays text-red-500">Valeur incorrecte</p>
+      </div>
+      <div class="w-1/3 flex flex-col h-20 px-2">
+        <h1>Code Postal</h1>
+        <input id="code_postal" class="border" type="number" required />
+        <p class="err_postal text-red-500">Valeur incorrecte</p>
+      </div>
+      <div class="checker w-full pl-3 h-10 items-center">
+        <input id="condition" type="checkbox" required />
+        <label class="pl-2 text-sm" for="checkbox"> J'accepte les conditions générales d'utilisations et de
+          vente</label>
+        <p class="err_condition text-red-500 text-sm">Vous devez accepter le CGU pour continuer</p>
+      </div>
+      <div class="w-full pl-3 mt-3">
+        <button id="submit" class="border bg-blue-400 h-8 w-20 rounded text-gray-100">
+          Envoyer
+        </button>
+      </div>
+    </div>
+  </div>
+</body>
+<script src="./js/jquery.js"></script>
+<script type="text/javascript">
+  $(document).ready(function () {
+    $(":input").addClass(" pl-1 focus:outline-none");
+    let error__condition = false;
+
+    $(".err_prenom").hide();
+    $(".err_nom").hide();
+    $(".err_email").hide();
+    $(".err_ville").hide();
+    $(".err_pays").hide();
+    $(".err_postal").hide();
+    $(".err_condition").hide();
+
+    $("#prenom").keyup(function () {
+      check__prenom();
+    });
+
+    $("#nom").keyup(function () {
+      check__nom();
+    });
+
+    $("#email").keyup(function () {
+      check__email();
+    });
+
+    $("#ville").keyup(function () {
+      check__ville();
+    });
+
+    $("#pays").keyup(function () {
+      check__pays();
+    });
+
+    $(document).on("keyup click", "#code_postal", function () {
+      check__postal();
+    });
+
+    $("#condition").click(function () {
+      check__condition();
+    });
+
+    function check__prenom() {
+      let prenom__length = $("#prenom").val().length;
+      if (prenom__length > 10 || prenom__length == "") {
+        $("#prenom").removeClass("border-green-500");
+        $("#prenom").addClass("border-red-500");
+        $(".err_prenom").show();
+        error__prenom = true;
+      } else {
+        $("#prenom").removeClass("border-red-500");
+        $("#prenom").addClass("border-green-500");
+        $(".err_prenom").hide();
+      }
+    }
+
+    function check__nom() {
+      let nom__length = $("#nom").val().length;
+      if (nom__length < 10 || nom__length == "") {
+        $("#nom").removeClass("border-green-500");
+        $("#nom").addClass("border-red-500");
+        $(".err_nom").show();
+        error__nom = true;
+      } else {
+        $("#nom").removeClass("border-red-500");
+        $("#nom").addClass("border-green-500");
+        $(".err_nom").hide();
+      }
+    }
+
+    function check__email() {
+      let template = new RegExp(
+        /^[+a-zA-Z0-9._-]+@[a-zA-Z0-9.-]+\.[a-zA-Z]{2,4}$/i
+      );
+      if (template.test($("#email").val())) {
+        $("#email").addClass("border-green-500");
+        $("#email").removeClass("border-red-500");
+        $(".err_email").hide();
+      } else {
+        $("#email").addClass("border-red-500");
+        $("#email").removeClass("border-green-500");
+        $(".err_email").show();
+        error__mail = true;
+      }
+    }
+
+    function check__ville() {
+      let ville_value = $("#ville").val();
+      if (ville_value === "") {
+        $("#ville").addClass("border-red-500");
+        $("#ville").removeClass("border-green-500");
+        $(".err_ville").show();
+        error__ville = true;
+      } else {
+        $("#ville").addClass("border-green-500");
+        $("#ville").removeClass("border-red-500");
+        $(".err_ville").hide();
+      }
+    }
+
+    function check__pays() {
+      let ville_value = $("#pays").val();
+      if (ville_value === "") {
+        $("#pays").addClass("border-red-500");
+        $("#pays").removeClass("border-green-500");
+        $(".err_pays").show();
+        error__pays = true;
+      } else {
+        $("#pays").addClass("border-green-500");
+        $("#pays").removeClass("border-red-500");
+        $(".err_pays").hide();
+      }
+    }
+
+    function check__postal() {
+      let ville_value = $("#code_postal").val();
+      if (ville_value === "") {
+        $("#code_postal").addClass("border-red-500");
+        $("#code_postal").removeClass("border-green-500");
+        $(".err_postal").show();
+
+        error__postal = true;
+      } else {
+        $("#code_postal").addClass("border-green-500");
+        $("#code_postal").removeClass("border-red-500");
+        $(".err_postal").hide();
+      }
+    }
+
+    function check__condition() {
+      if ($("input:checkbox").is(":checked")) {
+        $(".checker label").addClass("text-green-500");
+        $(".checker label").removeClass("text-red-500");
+        $(".err_condition").hide();
+      } else {
+        $(".checker label").addClass("text-red-500");
+        $(".checker label").removeClass("text-green-500");
+        $(".err_condition").show();
+        error__condition = true;
+      }
+    }
+
+    $("button").bind("mouseover", "#submit", function () {
+      error__prenom = false;
+      error__nom = false;
+      error__mail = false;
+      error__ville = false;
+      error__pays = false;
+      error__postal = false;
+      error__condition = false;
+
+      check__prenom();
+      check__nom();
+      check__email();
+      check__ville();
+      check__pays();
+      check__postal();
+      check__condition();
+
+      if (
+        error__prenom == false &&
+        error__nom == false &&
+        error__mail == false &&
+        error__ville == false &&
+        error__pays == false &&
+        error__postal == false &&
+        error__condition == false
+      ) {
+        $("#submit").removeClass("cursor-not-allowed bg-gray-400 ");
+        $("#submit").addClass("bg-blue-400");
+      } else {
+        $("#submit").removeClass("bg-blue-400");
+        $("#submit").addClass("cursor-not-allowed bg-gray-400");
+      }
+    });
+  });
+</script>
+
+</html>
